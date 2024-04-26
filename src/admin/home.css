@@ -1,0 +1,19 @@
+
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .home-container {
+    position: relative;
+    height: 100vh; /* Set the height to cover the entire viewport */
+  }
+  
+  .background-image {
+    width: 100%; /* Set the width to 100% to fit the page horizontally */
+    height: 100%; /* Set the height to 100% to fit the page vertically */
+    object-fit: cover; /* Adjust object-fit property to cover the entire container */
+    /* top: 0;
+    left: 0; */
+  }
+  

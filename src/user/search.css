@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 10px;
+}
+
+body{
+    color: white;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.Morning {
+    background-image: url("../assets/background/Morning.jpg");
+}
+
+.Evening {
+    background-image: url("../assets/background/Evening.jpg");
+}
+
+.Night {
+    background-image: url("../assets/background/Night.jpg");
+}
+
+
+.MainContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 95vh;
+    width: 100%;
+    background-size:cover;
+    background-position: center;
+    transition: 500ms linear;
+}
+
+.searchBoxContainer{
+    margin: 0 2rem;
+    padding: 0.5rem;
+    padding-left:0rem;
+    display: flex;
+}
+
+.search{
+    width: 85%;
+    padding: 0.5rem;
+    outline: none;
+    border: none;
+    border-bottom-left-radius: 2rem;
+    background: rgba(255, 255, 255, 0.4);
+    color: rgb(0, 0, 0);
+    font-size: 2rem;
+    box-shadow: 0px 6px 4px rgba(0, 0, 0, 0.4);
+    transition: 500ms ease-in-out;
+    font-family: 'Nunito', sans-serif;
+}
+
+.search::placeholder{
+    color: rgb(0, 0, 0);
+    transition: 500ms ease-in-out;
+}
+
+.search:focus{
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.search:focus::placeholder{
+    color: white;
+}
+
+.toggleSwitchBox{
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 6px 4px rgba(0, 0, 0, 0.4);
+    border-left: 2px solid black;
+    border-bottom-right-radius: 2rem;
+}
+
+.checkbox {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-label {
+    background-color: #000000;
+    width: 50px;
+    height: 26px;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+}
+
+.units{
+    font-size: 1.4rem;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+}
+
+.ball{
+    color:  #f1c40f;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    transition: transform 0.2s linear
+}
+
+.checkbox:checked + .checkbox-label .ball {
+    transform: translateX(24px);
+  }
+
+.weatherBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 2rem;
+    position: relative;
+    text-shadow: 8px 8px 6px rgba(0, 0, 0, 0.4);
+}
+
+.temperature{
+    font-size: 12rem;
+    font-weight: 900;
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+    width: auto;
+}
+
+.temperature::after{
+    content: attr(datatemp);
+    font-size: 3rem;
+    position: absolute;
+    top: 0;
+    left: auto;
+}
+
+.generalInfo{
+    border-left: 2px solid white;
+    padding-left: 2rem;
+    overflow-wrap: break-word;
+    margin-left: 2rem;
+}
+
+.generalInfo > .condition{
+    font-size: 2rem;
+    font-weight: 100;
+}
+
+.generalInfo > .location ,.country{ 
+    font-size: 3rem;
+    font-weight: 900;
+}
+
+.bottomBox{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.feels,.humidity,.windSpeed{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.icon{
+    width: 5rem;
+    height: 5rem;
+}
+
+@media(max-width:500px){
+    html{
+        font-size: 50%;
+    }
+    .generalInfo > .condition{
+        font-size: 1.5rem;
+    }
+    .generalInfo > .location ,.country{ 
+        font-size: 2.5rem;
+    }
+    .weatherBox{
+        margin-top: -40rem;
+    }
+    .feels,.humidity,.windSpeed{
+        flex-direction: column;
+        gap: 2rem;
+        font-size: 2rem;
+        text-align: center;
+    }
+    .search{
+        width: 80%;
+    }
+    .toggleSwitchBox{
+        width: 20%;
+    }
+    
+}
+
+

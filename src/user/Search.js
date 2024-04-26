@@ -1,0 +1,177 @@
+// import { useState } from 'react';
+// import TopCard from './TopCard';
+// import BottomCard from './BottomCard';
+// import ToggleSwitch from './ToggleSwitch';
+
+// export default function Search() {
+//   const api = {
+//     key : "be8e67b55b77481f9ab101100231707",
+//     baseUrl: "http://api.weatherapi.com/v1/current.json"
+//   }
+//   const [location,setLocation] = useState("")
+//   const [weather,setWeather] = useState(null)
+//   const [unit,setUnit] = useState("°C")
+
+//   const toggleUnit = () =>{
+//     if(unit === "°C") setUnit("°F")
+//     else setUnit("°C")
+//   }
+
+//   const getTime = (data) =>{
+//     const time = data.split(" ")[1].split(":")[0]
+//     if(time==="5"||time==="6"||time==="7"||time==="8"||time==="9"||time==="10"||time==="11"||time==="12") return "Morning"
+//     else if(time==="13"||time==="14"||time==="15"||time==="16"||time==="17"||time==="18"||time==="19") return "Evening"
+//     else return "Night"
+//   }
+
+//   const requiredData = (data) =>{
+//     setWeather({name : data.location.name,
+//                 country : data.location.country,
+//                 condition : data.current.condition.text,
+//                 tempC : data.current.temp_c,
+//                 tempF : data.current.temp_f,
+//                 wind : data.current.wind_kph,
+//                 humidity : data.current.humidity,
+//                 feelsC : data.current.feelslike_c,
+//                 feelsF : data.current.feelslike_f,
+//                 time :  getTime(data.location.localtime),
+//                 icon : data.current.condition.icon
+//     })
+//   }
+//   const search = (e) =>{
+//       if(e.key !== "Enter") return
+//       fetch(`${api.baseUrl}?Key=${api.key}&q=${location}`,{mode:"cors"})
+//       .then(res => res.json())
+//       .then(result => {
+//         requiredData(result) 
+//         setLocation("")})
+//       .catch(rej => alert("Location not found.Search must be in the form of [City], [City, State] or [City, Country]."))
+//   }
+//   window.onload = async () =>{
+//     try{
+//         const fetched = await fetch(`${api.baseUrl}?Key=${api.key}&q=kochi`,{mode:"cors"})
+//         const res = await fetched.json()
+//         requiredData(res)
+//     }catch(err){
+//       alert("Location not found.Search must be in the form of [City], [City, State] or [City, Country].")
+//     }   
+//   }
+//   return (
+//     <div className={weather !== null ? weather.time === "Morning" ? "MainContainer Morning" : weather.time === "Evening" ? "MainContainer Evening" : "MainContainer Night": " "}>
+//       <div className='searchBoxContainer'>
+//         <input value={location} onChange={(e) => setLocation(e.target.value)} onKeyDown={search} type="text" placeholder='Search Location...' className='search'/>
+//         <ToggleSwitch toggleUnit={toggleUnit} />
+//       </div>
+//       <TopCard weather={weather} unit={unit} />
+//       <BottomCard weather={weather} unit={unit} />
+//     </div>
+    
+//   );
+// }
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import TopCard from './TopCard';
+import BottomCard from './BottomCard';
+import ToggleSwitch from './ToggleSwitch';
+import './search.css'
+
+
+const Search = () => {
+  const api = {
+    key: "be8e67b55b77481f9ab101100231707",
+    baseUrl: "http://api.weatherapi.com/v1/current.json"
+  };
+
+  const [location, setLocation] = useState("");
+  const [weather, setWeather] = useState(null);
+  const [unit, setUnit] = useState("°C");
+
+  const toggleUnit = () => {
+    setUnit(prevUnit => (prevUnit === "°C" ? "°F" : "°C"));
+  };
+
+  const getTime = (data) => {
+    const hour = parseInt(data.split(" ")[1].split(":")[0]);
+    if (hour >= 5 && hour < 12) return "Morning";
+    else if (hour >= 12 && hour < 19) return "Evening";
+    else return "Night";
+  };
+
+  const requiredData = (data) => {
+    setWeather({
+      name: data.location.name,
+      country: data.location.country,
+      condition: data.current.condition.text,
+      tempC: data.current.temp_c,
+      tempF: data.current.temp_f,
+      wind: data.current.wind_kph,
+      humidity: data.current.humidity,
+      feelsC: data.current.feelslike_c,
+      feelsF: data.current.feelslike_f,
+      time: getTime(data.location.localtime),
+      icon: data.current.condition.icon
+    });
+  };
+
+  const searchWeather = async (query) => {
+    try {
+      const fetched = await fetch(`${api.baseUrl}?key=${api.key}&q=${query}`, { mode: "cors" });
+      const res = await fetched.json();
+      requiredData(res);
+    } catch (err) {
+      alert("Location not found. Please make sure your location service is enabled.");
+    }
+  };
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            searchWeather(`${latitude},${longitude}`);
+          },
+          (error) => {
+            console.error("Error getting user's location:", error);
+          }
+        );
+      } else {
+        alert("Geolocation not available");
+      }
+    };
+
+    fetchWeatherData();
+  }, []);
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      searchWeather(location);
+      setLocation("");
+    }
+  };
+
+  return (
+    <div className={`MainContainer ${weather?.time || ""}`}>
+      <div className='searchBoxContainer'>
+        <input
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          onKeyDown={handleSearch}
+          type="text"
+          placeholder='Search Location...'
+          className='search'
+        />
+        <ToggleSwitch toggleUnit={toggleUnit} />
+      </div>
+      <TopCard weather={weather} unit={unit} />
+      <BottomCard weather={weather} unit={unit} />
+    </div>
+  );
+};
+
+export default Search;

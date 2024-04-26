@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.home-container {
+  position: relative;
+  height: 100vh; /* Set the height to cover the entire viewport */
+}
+
+.video {
+  object-fit: cover; /* Fills the container while maintaining aspect ratio */
+  width: 100%;
+  height: 100%;
+  position: fixed; /* Positions the video at the top left corner */
+  z-index: -1; /* Places the video behind other elements */
+  top: 0;
+}
+.intro-container {
+  /* background: url('/images/img-home.jpg') center center/cover no-repeat; */
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
+  object-fit: contain;
+}
+
+.intro-container > h1 {
+  color: #fff;
+  font-size: 100px;
+  margin-top: -100px;
+}

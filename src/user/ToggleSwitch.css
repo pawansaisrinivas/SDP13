@@ -1,0 +1,31 @@
+/* ToggleSwitch.css */
+.toggleSwitchBox {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .checkbox {
+    display: none;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .units {
+    padding: 0 5px;
+  }
+  
+  .ball {
+    font-size: 20px;
+    color: #2196F3;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .checkbox:checked + .checkbox-label .ball {
+    transform: translateX(22px);
+  }
+  
